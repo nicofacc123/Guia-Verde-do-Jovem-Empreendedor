@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <script>
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("img").forEach(img => {
+    img.addEventListener("error", () => {
+      const nome = img.src.split("/").pop(); 
+    });
+  });
+});
+</script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia Verde do Jovem Empreendedor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4fff4;
+      color: #2f4f2f;
+    }
+
+    header {
+      background-color: #3cb371;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #2e8b57;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    section {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    footer {
+      background-color: #3cb371;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+    }
+
+    h2 {
+      color: #2e8b57;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .active {
+      display: block;
+    }
+  </style>
+  <script>
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+    }
+  </script>
+</head>
+<body>
+
+  <header>
+    <h1>🌿 Guia Verde do Jovem Empreendedor</h1>
+    <p>Empreender com responsabilidade ambiental e inovação</p>
+  </header>
+
+  <nav>
+    <a href="#" onclick="showPage('home')">Início</a>
+    <a href="#" onclick="showPage('praticas')">Boas Práticas</a>
+    <a href="#" onclick="showPage('casos')">Casos de Sucesso</a>
+    <a href="#" onclick="showPage('links')">Links e Dicas</a>
+  </nav>
+
+<section id="home" class="page active">
+  <h2>Bem-vindo!</h2>
+  <p>Este lugar foi feito especialmente para jovens que querem começar seu próprio negócio de modo responsável e pensado. Aqui você vai achar inspiração, para transformar suas ideias em projetos reais que causam efeito positivo no meio ambiente e na sociedade. 
+    Nosso objetivo é ajudar você em cada passo da viagem dando conteúdo que mistura inovação, sustentabilidade e visão do futuro. 
+     Nós acreditamos que com dedicação é possível transformar problemas em oportunidades e criar negócios que realmente façam a diferença. Prepare-se para crescer, aprender e agir.
+
+</p>
+
+  <div style="margin-top:20px;">
+    <h3>Por que empreender de forma sustentável?</h3>
+    <img src="imagens/empreendedorismo-sustentavel.webp" alt="Empreender de forma sustentável" style="max-width:100%; border-radius:8px; margin-bottom:10px;">
+    <p style="font-size:14px; color:gray; text-align:center; margin-top:4px;">
+  Fonte: Banco de Imagens Sustentáveis
+</p>
+    <p>Empreender de jeito sustentável é chave para ter o eq͏uilíbrio ͏entre cres͏cimento de dinheiro, cuidado com o meio ambiente e bem͏-estar social. Ao usa͏r práti͏cas ͏sustentá͏veis, as͏ empresas dim͏inuem o efeito ruin no ambiente, ͏gua͏rdando recu͏rsos naturai͏s i͏mporta͏ntes para futuras gerações. Também, negócios sustentáveis trazem nov͏idades ͏eficiência
+       e com custos no longo prazo atraindo consumidores conscient͏es e financiadores comprometidos com uma responsa͏bilida͏de social. En͏trar para o empreendedo͏rismo com um olhar no sustentabilidade for͏talece a fama da empres͏a aumenta sua competiti͏vidade e cont͏ribui para um͏a socied͏ade mais justa e equalizad͏a. Em um mundo ͏onde os desafios ambientais e sociais tão c͏ad͏a vez mais ͏claros o ͏empreendedori͏smo sustentável é uma resposta int͏eligent͏e e precis͏a a͏pta a cr͏i͏ar u͏m v͏alor econômico enqua͏nto protege o planeta melhorando a qualidade de vida d͏e͏ todos.
+</p>
+  </div>
+
+ <div style="margin-top:20px;">
+    <h3>Comunidade e colaboração</h3>
+    <img src="imagens/comunidade.jpg" alt="Comunidade e colaboração" style="max-width:100%; border-radius:8px; margin-bottom:10px;">
+    <p style="font-size:14px; color:gray; text-align:center; margin-top:4px;">
+ Fonte: The Yuri Arcurs Collection
+</p>
+    <p>A colaboração e a comunidade são essenciais no empreendedorismo sustentável. Juntos, empreendedores compartilham ideias, recursos e experiências, gerando soluções inovadoras para desafios ambientais e sociais. A comunidade fortalece o apoio mútuo, facilita parcerias e amplia o impacto das ações, criando um efeito multiplicador. Além disso, promove valores de responsabilidade e ética, estimulando práticas mais conscientes. Ao colaborar, os empreendedores contribuem para uma economia local mais forte e uma produção mais sustentável. Assim, a união fortalece negócios, gera aprendizado contínuo e ajuda a construir um futuro equilibrado e justo para todos.
+</p>
+  </div>
+</section>
+
+  <section id="praticas" class="page">
+  <h2>Boas Práticas</h2>
+  <ul>
+    <li><a href="#" onclick="showDetail('plastico')">Reduzir o uso de plástico e papel nos processos.</a></li>
+    <li><a href="#" onclick="showDetail('embalagens')">Utilizar embalagens recicláveis ou biodegradáveis.</a></li>
+    <li><a href="#" onclick="showDetail('fornecedores')">Incentivar fornecedores locais e produção consciente.</a></li>
+    <li><a href="#" onclick="showDetail('energia')">Economizar energia e água.</a></li>
+    <li><a href="#" onclick="showDetail('educacao')">Promover educação ambiental entre colaboradores e clientes.</a></li>
+  </ul>
+
+  <div id="detalhe-pratica" style="margin-top:20px; padding:15px; background:#e6ffe6; border-radius:8px; display:none; text-align:center;">
+  <img id="imagem-pratica" src="" style="max-width:100%; border-radius:8px; margin-bottom:10px;"> <!-- Imagem adicionada aqui -->
+  <p id="texto-pratica" style="font-size:16px; line-height:1.5;"></p>
+  <button onclick="document.getElementById('detalhe-pratica').style.display='none'">Fechar</button>
+</div>
+</section>
+
+<script>
+  function showDetail(tipo) {
+    const dados = {
+  plastico: {
+    img: "imagens/plastico.png",  
+    texto: "Diminuir o consumo de plástico e papel evita resíduos e a extração excessiva de recursos naturais. Prefira alternativas digitais e materiais reutilizáveis."
+  },
+  embalagens: {
+    img: "imagens/embalagens.jpg",  
+    texto: "Escolher embalagens recicláveis ou biodegradáveis reduz a poluição e o impacto ambiental, passando uma imagem responsável para seus clientes."
+  },
+  fornecedores: {
+    img: "imagens/fornecedores.jpeg",  
+    texto: "Comprar de fornecedores da região reduz a poluição com transporte, fortalece a economia local e estimula práticas éticas e sustentáveis."
+  },
+  energia: {
+    img: "imagens/energia.jpg",  
+    texto: "Trocar lâmpadas por LED, desligar equipamentos e reaproveitar a água da chuva reduz custos e preserva recursos naturais."
+  },
+  educacao: {
+    img: "imagens/educacao.png",  
+    texto: "Ensinar e incentivar práticas sustentáveis aumenta a consciência e multiplica hábitos responsáveis dentro e fora da empresa."
+  }
+};
+    document.getElementById('imagem-pratica').src = dados[tipo].img;
+    document.getElementById('texto-pratica').innerText = dados[tipo].texto;
+    document.getElementById('detalhe-pratica').style.display = 'block';
+  }
+</script>
+
+
+
+ <section id="casos" class="page">
+  <h2>Casos de Sucesso</h2>
+
+  <div style="margin-top:20px;">
+    <h3>Fatemah Alzelzela</h3>
+    <img src="imagens/Fatemah Alzelzela_.jpeg" style="max-width:100%; border-radius:8px; margin-bottom:10px;">
+    <p style="font-size:14px; color:gray; text-align:center; margin-top:4px;">
+  Foto: PNUMA
+</p>
+    <p>O exemplo de Fatemah Alzelzela, do Kuwait, que cofundou a organização sem fins lucrativos Eco Star. A organização coleta e recicla resíduos de casas, restaurantes e escolas. Com o país produzindo 1,5 kg de lixo por pessoa por dia e do qual 90% vai para aterros, ela investiu seus próprios recursos, usou as redes sociais para educar outros e inspirar mais de 20 mil seguidores e, desde 2019, ela já reciclou mais de 3,5 toneladas de plástico, 10 toneladas de papel e 120 toneladas de metal. O objetivo de Fatemah é promover a gestão sustentável de resíduos e inspirar ação coletiva.</p>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>Nzambi Matee</h3>
+    <img src="imagens/Nzambi Matee.jpeg"style="max-width:100%; border-radius:8px; margin-bottom:10px;">
+    <p style="font-size:14px; color:gray; text-align:center; margin-top:4px;">
+  Foto: PNUMA/Georgina Smith
+</p>
+    <p>Nzambi Matee, fundadora da Gjenge Makers no Quênia, deixou o emprego e investiu todas as economias em um projeto para transformar plástico descartado em materiais de construção. Criou uma máquina que mistura plástico e areia para produzir tijolos mais leves, duráveis e acessíveis que o cimento, usados para pavimentar calçadas, inclusive em áreas de baixa renda. Hoje, a empresa fabrica cerca de 1.500 blocos por dia, mostrando ser possível adotar uma economia circular.</p>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>Lefteris Arapakis</h3>
+    <img src="imagens/Lefteris Arapakis.jpeg" style="max-width:100%; border-radius:8px; margin-bottom:10px;">
+    <p style="font-size:14px; color:gray; text-align:center; margin-top:4px;">
+  Foto: PNUMA
+</p>
+    <p>Quando Lefteris Arapakis viu que suas redes de pesca estavam coletando mais plástico do que peixe na quinta geração da Grécia, ele se sentiu alarmado pelo futuro de seu meio ambiente. Isso inspirou-o a lançar a Enaleia, a primeira escola de pesca sustentável do país. Lá, os pescadores aprenderam a pescar resíduos plásticos e a trazê-los de volta para reciclagem, contribuindo para a limpeza de nossos oceanos. Além disso, a escola também ensinou a comunidade local sobre o tema, com mais de 80 toneladas de plástico removidas do mar até hoje. Em colaboração com uma organização holandesa, a Enaleia recicla redes de pesca usadas e transforma em produtos como tapetes ou meias. Graças ao seu compromisso com um impacto ambiental positivo, Lefteris foi nomeado Young Earth Champion pelo United Nations Environment Program.</p>
+  </div>
+</section>
+
+
+<section id="links" class="page">
+  <h2>Links Úteis e Dicas</h2>
+  <ul>
+    <li>
+      <a href="https://sebrae.com.br/sites/PortalSebrae/ufs/pe/sebraeaz/jovem-empreendedor,7691e120f3099710VgnVCM100000d701210aRCRD" target="_blank">
+        SEBRAE Jovem Empreendedor
+      </a> – Plataforma com cursos, consultorias e conteúdos para ajudar jovens a iniciar e desenvolver seus negócios de forma estratégica.
+    </li>
+    <li>
+      <a href="https://plataforma-pf.sccon.com.br/#/" target="_blank">
+        Programa Brasil Mais
+      </a> – Iniciativa do Governo Federal que oferece ferramentas e mentorias para aumentar a produtividade e inovação nas empresas.
+    </li>
+    <li>
+      <a href="https://www.ev.org.br/cursos/responsabilidade-social-e-sustentabilidade" target="_blank">
+        Curso gratuito: Responsabilidade Social e Sustentabilidade (Fundação Bradesco)
+      </a> – Curso online que ensina conceitos, práticas e exemplos de negócios ecologicamente responsáveis.
+    </li>
+    <li>
+
+  </ul>
+
+  <h3 style="margin-top:20px;">💡 Dicas Rápidas</h3>
+  <ul>
+    <li>Participe de feiras de empreendedorismo local para divulgar seu trabalho e fazer contatos.</li>
+    <li>Procure incubadoras e aceleradoras que apoiem negócios de impacto social e ambiental.</li>
+    <li>Use redes sociais para mostrar bastidores e o impacto positivo do seu negócio.</li>
+    <li>Crie parcerias com escolas e ONGs para projetos colaborativos sustentáveis.</li>
+    <li>Ofereça descontos para clientes que trouxerem embalagens para reciclagem.</li>
+    <li>Adote ferramentas digitais para reduzir o uso de papel na sua empresa.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>© 2025 Guia Verde do Jovem Empreendedor | Trabalho Escolar</p>
+  <p>
+    <strong>Grupo:</strong> Nícolas, Ismael, Jhenify, Luis, Paulo
+    <strong>Turma:</strong> 1º info E 
+    <strong>Professor:</strong> Jerônimo
+  </p>
+  <p><strong>Disciplina:</strong> Aprofundamentos</p>
+  <p><strong>Escola:</strong> Cetep SSF II Antônio Conselheiro
+</p>
+</footer>
+
+</footer>
+  
+</body>
+</html>!
