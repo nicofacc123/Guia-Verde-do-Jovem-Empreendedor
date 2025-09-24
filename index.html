@@ -15,69 +15,100 @@ document.addEventListener("DOMContentLoaded", () => {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Guia Verde do Jovem Empreendedor</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4fff4;
-      color: #2f4f2f;
-    }
+<style>
+  body {
+    font-family: "Poppins", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f8faf9;
+    color: #2f4f2f;
+  }
 
-    header {
-      background-color: #3cb371;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
+  header {
+    background: linear-gradient(135deg, #3cb371, #2e8b57);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
 
-    nav {
-      background-color: #2e8b57;
-      padding: 10px;
-      text-align: center;
-    }
+  nav {
+    display: flex;
+    justify-content: center;
+    background: #ffffff;
+    border-bottom: 2px solid #e5e5e5;
+    gap: 10px;
+    padding: 10px;
+  }
 
-    nav a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
-    }
+  nav a {
+    padding: 10px 18px;
+    border-radius: 8px 8px 0 0;
+    font-weight: 600;
+    color: #2e8b57;
+    text-decoration: none;
+    background: #f1fdf5;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
 
-    section {
-      padding: 20px;
-      max-width: 900px;
-      margin: auto;
-    }
+  nav a:hover {
+    background: #e6f9ec;
+    color: #3cb371;
+  }
 
-    footer {
-      background-color: #3cb371;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      margin-top: 30px;
-    }
+  nav a.active-tab {
+    background: #3cb371;
+    color: white;
+    box-shadow: 0 -2px 6px rgba(0,0,0,0.1) inset;
+  }
 
-    h2 {
-      color: #2e8b57;
-    }
+  section.page {
+    display: none;
+    padding: 25px;
+    max-width: 900px;
+    margin: 25px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    animation: fadeIn 0.4s ease-in-out;
+  }
 
-    .page {
-      display: none;
-    }
+  section.page.active {
+    display: block;
+  }
 
-    .active {
-      display: block;
-    }
-  </style>
-  <script>
-    function showPage(pageId) {
-      document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-      });
-      document.getElementById(pageId).classList.add('active');
-    }
-  </script>
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  .destaque {
+  text-align: justify;
+  line-height: 1.8;
+  font-size: 20px; /* 🔹 aqui deixei maior */
+  color: #000;
+  background: #e6f2f8; /* azul clarinho */
+  padding: 14px;
+  border-radius: 6px;
+}
+</style>
+
+<script>
+  function showPage(pageId) {
+
+    document.querySelectorAll('.page').forEach(page => {
+      page.classList.remove('active');
+    });
+
+  
+    document.getElementById(pageId).classList.add('active');
+
+    document.querySelectorAll("nav a").forEach(a => a.classList.remove("active-tab"));
+    document.querySelector(`nav a[data-page='${pageId}']`).classList.add("active-tab");
+  }
+</script>
+
+
 </head>
 <body>
 
@@ -86,12 +117,13 @@ document.addEventListener("DOMContentLoaded", () => {
     <p>Empreender com responsabilidade ambiental e inovação</p>
   </header>
 
-  <nav>
-    <a href="#" onclick="showPage('home')">Início</a>
-    <a href="#" onclick="showPage('praticas')">Boas Práticas</a>
-    <a href="#" onclick="showPage('casos')">Casos de Sucesso</a>
-    <a href="#" onclick="showPage('links')">Links e Dicas</a>
-  </nav>
+<nav>
+  <a data-page="home" onclick="showPage('home')">Início</a>
+  <a data-page="praticas" onclick="showPage('praticas')">Boas Práticas</a>
+  <a data-page="casos" onclick="showPage('casos')">Casos de Sucesso</a>
+  <a data-page="links" onclick="showPage('links')">Links e Dicas</a>
+</nav>
+
 
 <section id="home" class="page active">
   <h2>Bem-vindo!</h2>
@@ -201,6 +233,16 @@ document.addEventListener("DOMContentLoaded", () => {
 </p>
     <p>Quando Lefteris Arapakis viu que suas redes de pesca estavam coletando mais plástico do que peixe na quinta geração da Grécia, ele se sentiu alarmado pelo futuro de seu meio ambiente. Isso inspirou-o a lançar a Enaleia, a primeira escola de pesca sustentável do país. Lá, os pescadores aprenderam a pescar resíduos plásticos e a trazê-los de volta para reciclagem, contribuindo para a limpeza de nossos oceanos. Além disso, a escola também ensinou a comunidade local sobre o tema, com mais de 80 toneladas de plástico removidas do mar até hoje. Em colaboração com uma organização holandesa, a Enaleia recicla redes de pesca usadas e transforma em produtos como tapetes ou meias. Graças ao seu compromisso com um impacto ambiental positivo, Lefteris foi nomeado Young Earth Champion pelo United Nations Environment Program.</p>
   </div>
+   
+   <div style="margin-top:20px;">
+    <h3>Anna Luísa Beserra Santos</h3>
+    <img src="imagens/Anna Luísa Beserra Santos.webp" style="max-width:100%; border-radius:8px; margin-bottom:10px;">
+    <p style="font-size:14px; color:gray; text-align:center; margin-top:4px;">
+  Foto: UN Environment Programme
+</p>
+    <p>Anna Luíza, com 22 anos, é uma j͏ovem empresária brasileira que cri͏ou uma nova tecnologia para tratar água da cisterna uzand͏o luz solar, que é única no mundo. A fu͏nda͏dora da e͏mpresa Safe Drinking Water For All (SDW) cria maneiras de saneamento para ajudar a vida dos grupos frágis. Com estud͏os no Brasil, Suiça e EUA, ela͏ ga͏nhou alguns prêmios tipo “Mude o Mundo como uma ͏Menina 2019”, ͏“Prê͏mio Hugo Werneck de Sustentabilidade” e͏ “͏Jovens Cam͏peões da Terra” da͏ ONU.</p>
+  </div>
+   
 </section>
 
 
@@ -240,16 +282,13 @@ document.addEventListener("DOMContentLoaded", () => {
 <footer>
   <p>© 2025 Guia Verde do Jovem Empreendedor | Trabalho Escolar</p>
   <p>
-    <strong>Grupo:</strong> Nícolas, Ismael, Jhenify, Luis, Paulo
-    <strong>Turma:</strong> 1º info E 
-    <strong>Professor:</strong> Jerônimo
+    <strong>Grupo:</strong> Ismael Almeida de Souza Varjão, Nícolas Ferreira da Silva Rosa, Rillary Mariana da Silva Oliveira
   </p>
-  <p><strong>Disciplina:</strong> Aprofundamentos</p>
-  <p><strong>Escola:</strong> Cetep SSF II Antônio Conselheiro
-</p>
+  <p><strong>Evento:</strong> Feira de Ciências</p>
+  <p><strong>Escola:</strong> Centro Territorial de Educação Profissional do Sertão do São Francisco II - Antônio Conselheiro </p>
+  <p><strong>Orientador:</strong> William Cardoso de Santana</p>
 </footer>
 
-</footer>
   
 </body>
-</html>!
+</html>
