@@ -91,6 +91,43 @@ document.addEventListener("DOMContentLoaded", () => {
   padding: 14px;
   border-radius: 6px;
 }
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+.card {
+  background: linear-gradient(160deg,#ffffff,#eaffea);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.card:hover { transform: translateY(-6px); box-shadow: 0 8px 18px rgba(0,0,0,0.15); }
+.card img { width:100%; height:160px; object-fit:cover; border-radius:10px; }
+.card h4 { margin: 12px 0 6px; color:#256d47; font-size: 18px; }
+
+.modal {
+  position: fixed; inset: 0; display: none;
+  align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.5); z-index: 100;
+}
+.modal-content {
+  background: white; max-width:700px; width: 92%;
+  padding:24px; border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.25);
+}
+
+.quiz-box { border: 2px solid #c2f0d1; padding: 18px; border-radius:14px; margin-top:25px; background:#fafffa; }
+.quiz-question { font-weight:700; margin-bottom:12px; color:#256d47; font-size: 17px; }
+.options { display:flex; flex-direction:column; gap:10px; }
+.option { padding:12px; border-radius:8px; cursor:pointer; border:1px solid #cdecd8; transition: background .25s, transform .15s; }
+.option:hover { background:#e8f9ef; transform: scale(1.02); }
+.option.correct { background:#d4f8d4; border-color:#52b352; font-weight:700; color:#1e522e; }
+.option.wrong { background:#ffd6d6; border-color:#ff5c5c; color:#7d1c1c; }
+.score-tracker { margin-bottom: 12px; font-size:14px; font-weight:600; color:#2e8b57; }
+
 </style>
 
 <script>
@@ -106,6 +143,193 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("nav a").forEach(a => a.classList.remove("active-tab"));
     document.querySelector(`nav a[data-page='${pageId}']`).classList.add("active-tab");
   }
+const curiosidades = [
+  {title:'Blocos feitos com plástico',img:'imagens/curio1.jpg',text:'Empresas transformam plástico em blocos resistentes e ecológicos.'},
+  {title:'Água solar para cisternas',img:'imagens/curio2.jpg',text:'Tecnologia que usa energia solar para purificar água em regiões rurais.'},
+  {title:'Economia circular',img:'imagens/curio3.jpg',text:'Modelo onde resíduos se tornam insumos de novos ciclos produtivos.'}
+];
+
+function openCurio(i){
+  const c=curiosidades[i];
+  document.getElementById('curio-title').innerText=c.title;
+  document.getElementById('curio-img').src=c.img;
+  document.getElementById('curio-text').innerText=c.text;
+  document.getElementById('curio-modal').style.display='flex';
+}
+function closeModal(){ document.getElementById('curio-modal').style.display='none'; }
+
+const quizQuestions = [
+  {
+    q: 'O que é economia circular?',
+    options: [
+      'Modelo de reduzir, reutilizar e reciclar recursos',
+      'Economia que cresce em círculo',
+      'Só vender produtos circulares'
+    ],
+    answer: 0
+  },
+  {
+    q: 'Qual vantagem dos blocos de plástico reciclado?',
+    options: [
+      'São mais leves e reduzem custos de transporte',
+      'Nunca quebram',
+      'Não precisam de mão de obra'
+    ],
+    answer: 0
+  },
+  {
+    q: 'O que empreendedores sustentáveis priorizam?',
+    options: [
+      'Lucro acima de tudo',
+      'Impacto social e ambiental além do lucro',
+      'Evitar tecnologia'
+    ],
+    answer: 1
+  },
+  {
+    q: 'Qual benefício da agricultura urbana?',
+    options: [
+      'Mais alimentos locais e frescos',
+      'Aumenta emissão de CO2',
+      'Acaba com áreas verdes'
+    ],
+    answer: 0
+  },
+  {
+    q: 'Por que o bambu é considerado sustentável?',
+    options: [
+      'Cresce rápido e se regenera facilmente',
+      'Não precisa de água',
+      'É mais caro que madeira'
+    ],
+    answer: 0
+  },
+  {
+    q: 'Qual dessas é uma fonte de energia renovável?',
+    options: [
+      'Carvão mineral',
+      'Energia das ondas',
+      'Petróleo'
+    ],
+    answer: 1
+  },
+  {
+  q: 'Qual é o principal objetivo da coleta seletiva?',
+  options: [
+    'Separar os resíduos para facilitar a reciclagem',
+    'Deixar o lixo mais bonito',
+    'Acabar com o uso de sacolas plásticas'
+  ],
+  answer: 0
+},
+{
+  q: 'O que significa o princípio dos 3Rs?',
+  options: [
+    'Reduzir, Reutilizar e Reciclar',
+    'Reparar, Recarregar e Recriar',
+    'Revisar, Reduzir e Renovar'
+  ],
+  answer: 0
+},
+{
+  q: 'Qual dessas energias NÃO é renovável?',
+  options: [
+    'Solar',
+    'Petróleo',
+    'Eólica'
+  ],
+  answer: 1
+},
+{
+  q: 'O que é compostagem?',
+  options: [
+    'Transformar restos orgânicos em adubo',
+    'Reutilizar garrafas de plástico',
+    'Produzir energia a partir de carvão'
+  ],
+  answer: 0
+},
+{
+  q: 'Por que plantar árvores ajuda o planeta?',
+  options: [
+    'Elas absorvem gás carbônico (CO₂)',
+    'Elas produzem mais plástico',
+    'Elas gastam muita água'
+  ],
+  answer: 0
+},
+{
+  q: 'Qual país é conhecido por reciclar mais de 90% do seu lixo?',
+  options: [
+    'Brasil',
+    'Japão',
+    'Suécia'
+  ],
+  answer: 2
+}
+
+];
+
+let currentQuestion=0; let score=0; let answered=false;
+
+function updateTracker(){
+  document.getElementById('score-tracker').innerText=`Questão ${currentQuestion+1} de ${quizQuestions.length} | Pontos: ${score}`;
+}
+
+function startQuiz(){
+  currentQuestion=0; score=0; answered=false;
+  document.getElementById('quiz-start').style.display='none';
+  document.getElementById('quiz-result').style.display='none';
+  document.getElementById('quiz-question').style.display='block';
+  showQuestion();
+}
+
+function showQuestion(){
+  answered=false; updateTracker();
+  const q=quizQuestions[currentQuestion];
+  document.getElementById('q-text').innerText=q.q;
+  const opts=document.getElementById('q-options'); opts.innerHTML='';
+  q.options.forEach((o,i)=>{
+    const div=document.createElement('div');
+    div.className='option'; div.innerText=o;
+    div.onclick=()=>selectOption(i);
+    opts.appendChild(div);
+  });
+  document.getElementById('next-btn').style.display='none';
+  document.getElementById('finish-btn').style.display='none';
+}
+
+function selectOption(i){
+  if(answered) return; answered=true;
+  const q=quizQuestions[currentQuestion];
+  const opts=document.querySelectorAll('#q-options .option');
+  opts.forEach((el,idx)=>{
+    el.style.pointerEvents='none';
+    if(idx===q.answer) el.classList.add('correct');
+    if(idx===i && idx!==q.answer) el.classList.add('wrong');
+  });
+  if(i===q.answer) score++;
+  updateTracker();
+  if(currentQuestion<quizQuestions.length-1) document.getElementById('next-btn').style.display='inline-block';
+  else document.getElementById('finish-btn').style.display='inline-block';
+}
+
+function nextQuestion(){ currentQuestion++; showQuestion(); }
+
+function finishQuiz(){
+  document.getElementById('quiz-question').style.display='none';
+  document.getElementById('quiz-result').style.display='block';
+  const text=document.getElementById('result-text');
+  text.innerHTML=`Você acertou <strong>${score}</strong> de <strong>${quizQuestions.length}</strong> perguntas.`;
+  if(score===quizQuestions.length) text.innerHTML+=' 🔥 Perfeito!';
+  else if(score>=Math.ceil(quizQuestions.length/2)) text.innerHTML+=' 👍 Muito bem!';
+  else text.innerHTML+=' 🤓 Continue praticando!';
+}
+
+function resetQuiz(){
+  document.getElementById('quiz-result').style.display='none';
+  document.getElementById('quiz-start').style.display='block';
+}
 </script>
 
 
@@ -121,6 +345,7 @@ document.addEventListener("DOMContentLoaded", () => {
   <a data-page="home" onclick="showPage('home')">Início</a>
   <a data-page="praticas" onclick="showPage('praticas')">Boas Práticas</a>
   <a data-page="casos" onclick="showPage('casos')">Casos de Sucesso</a>
+  <a data-page="curiosidades" onclick="showPage('curiosidades')">Curiosidades</a>
   <a data-page="links" onclick="showPage('links')">Links e Dicas</a>
 </nav>
 
@@ -157,20 +382,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
   <section id="praticas" class="page">
   <h2>Boas Práticas</h2>
-  <ul>
-    <li><a href="#" onclick="showDetail('plastico')">Reduzir o uso de plástico e papel nos processos.</a></li>
-    <li><a href="#" onclick="showDetail('embalagens')">Utilizar embalagens recicláveis ou biodegradáveis.</a></li>
-    <li><a href="#" onclick="showDetail('fornecedores')">Incentivar fornecedores locais e produção consciente.</a></li>
-    <li><a href="#" onclick="showDetail('energia')">Economizar energia e água.</a></li>
-    <li><a href="#" onclick="showDetail('educacao')">Promover educação ambiental entre colaboradores e clientes.</a></li>
-  </ul>
+  <p style="margin-bottom:20px;">Confira algumas práticas sustentáveis que podem ser aplicadas em negócios e no dia a dia:</p>
 
-  <div id="detalhe-pratica" style="margin-top:20px; padding:15px; background:#e6ffe6; border-radius:8px; display:none; text-align:center;">
-  <img id="imagem-pratica" src="" style="max-width:100%; border-radius:8px; margin-bottom:10px;"> <!-- Imagem adicionada aqui -->
-  <p id="texto-pratica" style="font-size:16px; line-height:1.5;"></p>
-  <button onclick="document.getElementById('detalhe-pratica').style.display='none'">Fechar</button>
-</div>
+  <div class="cards-grid">
+    <div class="card">
+      <img src="imagens/plastico.png" alt="Reduzir uso de plástico">
+      <h4>Reduzir Plástico e Papel</h4>
+      <p>Diminuir resíduos usando alternativas digitais e reutilizáveis.</p>
+    </div>
+
+    <div class="card">
+      <img src="imagens/embalagens.jpg" alt="Embalagens recicláveis">
+      <h4>Embalagens Sustentáveis</h4>
+      <p>Prefira opções recicláveis ou biodegradáveis para reduzir impacto ambiental.</p>
+    </div>
+
+    <div class="card">
+      <img src="imagens/fornecedores.jpeg" alt="Fornecedores locais">
+      <h4>Fornecedores Locais</h4>
+      <p>Valorize a economia regional e reduza poluição com transporte.</p>
+    </div>
+
+    <div class="card">
+      <img src="imagens/energia.jpg" alt="Economia de energia e água">
+      <h4>Economia de Energia e Água</h4>
+      <p>Use lâmpadas de LED, desligue equipamentos e reaproveite água da chuva.</p>
+    </div>
+
+    <div class="card">
+      <img src="imagens/educacao.png" alt="Educação ambiental">
+      <h4>Educação Ambiental</h4>
+      <p>Ensine práticas sustentáveis a colaboradores e clientes.</p>
+    </div>
+    <div class="card">
+      <img src="imagens/gestao.png" alt="Gestão de resíduos">
+      <h4>Gestão de Resíduos</h4>
+      <p>Implemente coleta seletiva e compostagem para reduzir o impacto ambiental.</p>
+    </div>
+  </div>
 </section>
+
 
 <script>
   function showDetail(tipo) {
@@ -194,8 +445,13 @@ document.addEventListener("DOMContentLoaded", () => {
   educacao: {
     img: "imagens/educacao.png",  
     texto: "Ensinar e incentivar práticas sustentáveis aumenta a consciência e multiplica hábitos responsáveis dentro e fora da empresa."
-  }
-};
+  },
+  residuos: {
+        img: "imagens/gestao.png",  
+        texto: "Implementar coleta seletiva e compostagem ajuda a reduzir o volume de lixo nos aterros e gera novos recursos como adubo."
+      }
+    };
+
     document.getElementById('imagem-pratica').src = dados[tipo].img;
     document.getElementById('texto-pratica').innerText = dados[tipo].texto;
     document.getElementById('detalhe-pratica').style.display = 'block';
@@ -244,6 +500,66 @@ document.addEventListener("DOMContentLoaded", () => {
   </div>
    
 </section>
+ 
+<section id="curiosidades" class="page">
+  <h2>Curiosidades 🌱</h2>
+  <p>Descubra fatos interessantes sobre sustentabilidade e inovação. Clique em um card para mais detalhes e depois teste seu conhecimento no quiz!</p>
+
+  <div class="cards-grid" style="margin-top:20px;">
+    <div class="card" onclick="openCurio(0)">
+      <img src="imagens/tijolo.webp" alt="Plástico reciclado">
+      <h4>Blocos feitos com plástico</h4>
+      <p>Transformar plástico em blocos mais leves que concreto.</p>
+    </div>
+    <div class="card" onclick="openCurio(1)">
+      <img src="imagens/aguapurifica.png" alt="Água solar">
+      <h4>Água solar para cisternas</h4>
+      <p>Purificação de água de cisternas com energia solar.</p>
+    </div>
+    <div class="card" onclick="openCurio(2)">
+      <img src="imagens/circular.jpeg" alt="Economia circular">
+      <h4>Economia circular</h4>
+      <p>Resíduos se tornam matéria-prima em novos ciclos.</p>
+    </div>
+  </div>
+
+  
+  <div id="curio-modal" class="modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" style="float:right;">Fechar</button>
+      <h3 id="curio-title"></h3>
+      <img id="curio-img" src="" alt="" style="width:100%; max-height:300px; object-fit:cover; border-radius:8px; margin-top:10px;">
+      <p id="curio-text" style="margin-top:12px; line-height:1.6;"></p>
+    </div>
+  </div>
+
+  
+  <div class="quiz-box" id="quiz">
+    <h3>Quiz: teste seus conhecimentos</h3>
+    <div id="quiz-area">
+      <div id="quiz-start">
+        <p>Pronto para começar? Clique em <strong>Começar Quiz</strong>.</p>
+        <button onclick="startQuiz()">Começar Quiz</button>
+      </div>
+
+      <div id="quiz-question" style="display:none; margin-top:12px;">
+        <div class="score-tracker" id="score-tracker"></div>
+        <div class="quiz-question" id="q-text"></div>
+        <div class="options" id="q-options"></div>
+        <div style="margin-top:14px;">
+          <button onclick="nextQuestion()" id="next-btn" style="display:none;">Próxima</button>
+          <button onclick="finishQuiz()" id="finish-btn" style="display:none;">Finalizar</button>
+        </div>
+      </div>
+
+      <div id="quiz-result" style="display:none; margin-top:12px;">
+        <h4>Resultado</h4>
+        <p id="result-text"></p>
+        <button onclick="resetQuiz()">Tentar novamente</button>
+      </div>
+    </div>
+  </div>
+</section>
 
 
 <section id="links" class="page">
@@ -279,15 +595,30 @@ document.addEventListener("DOMContentLoaded", () => {
   </ul>
 </section>
 
-<footer>
-  <p>© 2025 Guia Verde do Jovem Empreendedor | Trabalho Escolar</p>
-  <p>
-    <strong>Grupo:</strong> Ismael Almeida de Souza Varjão, Nícolas Ferreira da Silva Rosa, Rillary Mariana da Silva Oliveira
-  </p>
-  <p><strong>Evento:</strong> Feira de Ciências</p>
-  <p><strong>Escola:</strong> Centro Territorial de Educação Profissional do Sertão do São Francisco II - Antônio Conselheiro </p>
-  <p><strong>Orientador:</strong> William Cardoso de Santana</p>
+<footer style="background: linear-gradient(135deg,#2e8b57,#3cb371); color:white; padding:30px 20px; text-align:center; margin-top:40px; border-radius:12px 12px 0 0; box-shadow:0 -3px 10px rgba(0,0,0,0.1);">
+  <h3 style="margin-bottom:15px;">Guia Verde do Jovem Empreendedor</h3>
+  <p style="margin:6px 0; font-size:15px;">© 2025 | Trabalho Escolar – Feira de Ciências</p>
+  
+  <div style="max-width:800px; margin:15px auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; text-align:left;">
+    <div>
+      <h4 style="margin-bottom:6px; font-size:16px;">Grupo</h4>
+      <p style="margin:4px 0;">Ismael Almeida de Souza Varjão</p>
+      <p style="margin:4px 0;">Nícolas Ferreira da Silva Rosa</p>
+      <p style="margin:4px 0;">Rillary Mariana da Silva Oliveira</p>
+    </div>
+    <div>
+      <h4 style="margin-bottom:6px; font-size:16px;">Escola</h4>
+      <p style="margin:4px 0;">Centro Territorial de Educação Profissional do Sertão do São Francisco II - Antônio Conselheiro</p>
+    </div>
+    <div>
+      <h4 style="margin-bottom:6px; font-size:16px;">Orientador</h4>
+      <p style="margin:4px 0;">William Cardoso de Santana</p>
+    </div>
+  </div>
+  
+  <p style="margin-top:18px; font-size:14px; opacity:0.85;">Feito com dedicação para inspirar um futuro mais sustentável</p>
 </footer>
+
 
   
 </body>
