@@ -185,6 +185,13 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("nav a").forEach(a => a.classList.remove("active-tab"));
     document.querySelector(`nav a[data-page='${pageId}']`).classList.add("active-tab");
   }
+  function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 const curiosidades = [
   {title:'Blocos feitos com plástico',img:'imagens/curio1.jpg',text:'Empresas transformam plástico em blocos resistentes e ecológicos.'},
   {title:'Água solar para cisternas',img:'imagens/curio2.jpg',text:'Tecnologia que usa energia solar para purificar água em regiões rurais.'},
@@ -328,38 +335,44 @@ function startQuiz(){
 }
 
 function showQuestion(){
-  answered=false; updateTracker();
-  const q=quizQuestions[currentQuestion];
-  document.getElementById('q-text').innerText=q.q;
-  const opts=document.getElementById('q-options'); opts.innerHTML='';
-  q.options.forEach((o,i)=>{
-    const div=document.createElement('div');
-    div.className='option'; div.innerText=o;
-    div.onclick=()=>selectOption(i);
+  answered = false; 
+  updateTracker();
+
+  const q = quizQuestions[currentQuestion];
+  document.getElementById('q-text').innerText = q.q;
+  let optsWithIndex = q.options.map((o, i) => ({ text: o, index: i }));
+  optsWithIndex = shuffleArray(optsWithIndex);
+  let correctIndexAfterShuffle = optsWithIndex.findIndex(opt => opt.index === q.answer);
+  const opts = document.getElementById('q-options'); 
+  opts.innerHTML = '';
+  optsWithIndex.forEach((opt, pos) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.innerText = opt.text;
+   
+    div.onclick = () => selectOption(pos, correctIndexAfterShuffle);
     opts.appendChild(div);
   });
+
   document.getElementById('next-btn').style.display='none';
   document.getElementById('finish-btn').style.display='none';
 }
-
-function selectOption(i){
+function selectOption(i, correctIndex){
   if(answered) return; 
-  answered=true;
+  answered = true;
 
-  const q=quizQuestions[currentQuestion];
-  const opts=document.querySelectorAll('#q-options .option');
+  const opts = document.querySelectorAll('#q-options .option');
   
-  opts.forEach((el,idx)=>{
+  opts.forEach((el, idx) => {
     el.style.pointerEvents='none';
-    if(idx===q.answer) el.classList.add('correct');
-    if(idx===i && idx!==q.answer) el.classList.add('wrong');
+    if(idx === correctIndex) el.classList.add('correct'); // verde só no correto
+    if(idx === i && idx !== correctIndex) el.classList.add('wrong'); // vermelho no errado
   });
 
-  if(i===q.answer) score++;
+  if(i === correctIndex) score++;
   updateTracker();
 
-  
-  setTimeout(()=>{
+  setTimeout(() => {
     if(currentQuestion < quizQuestions.length-1){
       currentQuestion++;
       showQuestion();
@@ -368,6 +381,7 @@ function selectOption(i){
     }
   }, 750);
 }
+
 
 function nextQuestion(){ currentQuestion++; showQuestion(); }
 
@@ -378,7 +392,7 @@ function finishQuiz(){
   text.innerHTML=`Você acertou <strong>${score}</strong> de <strong>${quizQuestions.length}</strong> perguntas.`;
   if(score===quizQuestions.length) text.innerHTML+=' 🔥 Perfeito!';
   else if(score>=Math.ceil(quizQuestions.length/2)) text.innerHTML+=' 👍 Muito bem!';
-  else text.innerHTML+=' 🤓 Continue praticando!';
+  else text.innerHTML+=' 🤓 Precisa estudar ';
 }
 
 function resetQuiz(){
@@ -557,7 +571,7 @@ function resetQuiz(){
 </section>
  
 <section id="curiosidades" class="page">
-  <h2>Curiosidades 🌱</h2>
+  <h2>Curiosidades </h2>
   <p>Descubra fatos interessantes sobre sustentabilidade e inovação. Clique em um card para mais detalhes e depois teste seu conhecimento no quiz!</p>
 
   <div class="cards-grid" style="margin-top:20px;">
